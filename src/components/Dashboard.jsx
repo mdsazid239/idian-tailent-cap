@@ -6,6 +6,10 @@ import sing from "../assets/images/art-10.png";
 import art from "../assets/images/art-08.png";
 import camera from "../assets/images/art-09.png";
 import mic from "../assets/images/art-11.png";
+import video1 from "../assets/images/dance1.mp4";
+import video2 from "../assets/images/dance2.mp4";
+import video3 from "../assets/images/dance3.mp4";
+import backIcon from "../assets/images/group.png";
 
 const categories = [
   { img: sing, title: "SINGING" },
@@ -13,13 +17,7 @@ const categories = [
   { img: camera, title: "PHOTOGRAPHY" },
   { img: mic, title: "STANDUP COMEDY" },
 ];
-
-const videos = [
-  "https://images.pexels.com/photos/164938/pexels-photo-164938.jpeg",
-  "https://images.pexels.com/photos/210764/pexels-photo-210764.jpeg",
-  "https://images.pexels.com/photos/167092/pexels-photo-167092.jpeg",
-];
-
+const videos = [video1, video2, video3];
 const Dashboard = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -27,31 +25,40 @@ const Dashboard = () => {
 
   return (
     <div
-      className="min-h-screen bg-cover bg-center px-4 py-6"
+      className="min-h-screen bg-cover bg-center px-3 sm:px-4 py-5"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      {/* Top Bar */}
+      
+      <button
+        onClick={() => navigate(-1)}
+        className="fixed top-3 left-3 sm:top-4 sm:left-4 z-50 
+        bg-white/20 backdrop-blur-md 
+        p-2 rounded-full shadow-lg 
+        hover:bg-white/30 transition"
+      >
+        <img
+          src={backIcon}
+          alt="back"
+          className="w-5 h-5 sm:w-6 sm:h-6 object-contain"
+        />
+      </button>
+
       <div className="relative flex justify-center items-center mb-6">
-        
-        {/* LOGO CLICK → Dashboard */}
         <img
           src={logo}
           alt="logo"
-          onClick={() => navigate("/")}
-          className="w-36 cursor-pointer"
+          onClick={() => navigate("/dashboard")}
+          className="w-28 sm:w-32 cursor-pointer"
         />
 
         <div className="absolute right-0 top-0 flex gap-2">
-          
-          {/* HOME BUTTON */}
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/dashboard")}
             className="bg-white/70 p-2 rounded-md"
           >
             🏠
           </button>
 
-          {/* MENU BUTTON */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="bg-white/70 p-2 rounded-md"
@@ -60,84 +67,68 @@ const Dashboard = () => {
           </button>
         </div>
 
-        {/* DROPDOWN */}
         {menuOpen && (
-          <div className="absolute right-0 top-12 bg-gradient-to-b from-yellow-200 to-yellow-400 rounded-xl p-4 shadow-lg w-48">
-            <p
-              onClick={() => navigate("/profile")}
-              className="py-2 cursor-pointer hover:underline"
-            >
+          <div className="absolute right-0 top-12 bg-yellow-300 rounded-xl p-3 shadow-lg w-40 text-center">
+            <p onClick={() => navigate("/profile")} className="py-2 cursor-pointer hover:underline">
               My Profile
             </p>
-
-            <p
-              onClick={() => navigate("/terms")}
-              className="py-2 cursor-pointer hover:underline"
-            >
-              Terms & Conditions
+            <p onClick={() => navigate("/terms")} className="py-2 cursor-pointer hover:underline">
+              Terms
             </p>
           </div>
         )}
       </div>
 
-      {/* Category */}
+      
       <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
         {categories.map((item, index) => (
-          <div key={index} className="text-center">
-            <div className="bg-[#e6c28b]/80 rounded-xl shadow-lg p-4">
-              <img
-                src={item.img}
-                className="w-full h-24 object-contain"
-              />
+          <div
+            key={index}
+            onClick={() => navigate("/golden-voice")}
+            className="text-center cursor-pointer"
+          >
+            <div className="bg-[#e6c28b]/80 rounded-xl shadow p-3 hover:scale-105 transition">
+              <img src={item.img} alt={item.title} className="w-full h-20 object-contain" />
             </div>
-            <p className="text-white text-sm font-semibold mt-2">
+            <p className="text-white text-xs sm:text-sm font-semibold mt-2">
               {item.title}
             </p>
           </div>
         ))}
       </div>
 
-      {/* TOP PERFORMERS */}
-      <h2 className="text-center text-white font-bold mt-10 mb-4">
+     
+      <h2 className="text-center text-white font-bold mt-8 mb-4">
         TOP PERFORMERS
       </h2>
 
-      <div className="flex justify-center items-center gap-4">
-
-        {/* LEFT */}
+      <div className="flex justify-center items-center gap-3">
         <button
           onClick={() =>
             setCurrentVideo(
               currentVideo === 0 ? videos.length - 1 : currentVideo - 1
             )
           }
-          className="text-white text-2xl"
+          className="text-white text-xl"
         >
           ⬅
         </button>
 
-        {/* VIDEO */}
-        <div className="relative w-60 h-40 rounded-xl overflow-hidden shadow-xl">
-          <img
+        <div className="w-52 sm:w-60 h-32 sm:h-40 rounded-xl overflow-hidden shadow-lg">
+          <video
             src={videos[currentVideo]}
+            controls
             className="w-full h-full object-cover"
           />
-
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="bg-white/80 rounded-full p-3 cursor-pointer">
-              ▶
-            </div>
-          </div>
         </div>
 
-        {/* RIGHT */}
         <button
           onClick={() =>
             setCurrentVideo(
               currentVideo === videos.length - 1 ? 0 : currentVideo + 1
             )
           }
-          className="text-white text-2xl"
+          className="text-white text-xl"
         >
           ➡
         </button>
@@ -145,5 +136,4 @@ const Dashboard = () => {
     </div>
   );
 };
-
 export default Dashboard;

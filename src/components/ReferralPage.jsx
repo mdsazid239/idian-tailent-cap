@@ -1,176 +1,92 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import bg from "../assets/images/bg.png";
-import mansinger from "../assets/images/clap.png";
-const ReferralPage = () => {
-  const referralCode = "GOLD123";
+import person from "../assets/images/art-13.png";
+import backIcon from "../assets/images/group.png";
+export default function ReferralPage() {
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(referralCode);
-    alert("Referral code copied!");
-  };
-
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: "Join with my referral code!",
-        text: `Use my referral code ${referralCode}`,
-        url: window.location.href,
-      });
-    } else {
-      alert(`Share this code: ${referralCode}`);
-    }
+  const copyCode = () => {
+    navigator.clipboard.writeText("GOLD123");
   };
 
   return (
-    <div style={styles.container}>
+    <div
+      className="min-h-screen w-full bg-cover bg-center relative"
+      style={{ backgroundImage: `url(${bg})` }}
+    >
       
-      {/* Back Button */}
-      <button onClick={() => window.history.back()} style={styles.backBtn}>
-        <ArrowLeft size={22} />
+      <div className="absolute inset-0 bg-black/10" />
+
+     
+      <button
+        onClick={() => navigate(-1)}
+        className="fixed top-3 left-3 z-50 
+        bg-white/30 backdrop-blur-md 
+        p-2 rounded-full shadow-lg"
+      >
+        <img
+          src={backIcon}
+          alt="back"
+          className="w-5 h-5 object-contain"
+        />
       </button>
 
-      {/* Title */}
-      <h1 style={styles.title}>
-        Refer & <span style={styles.highlight}>Win Big!</span>
-      </h1>
-
-      {/* Card */}
-      <div style={styles.card}>
-        <h2 style={styles.subtitle}>Get more chances to win!</h2>
-        <p style={styles.text}>
-          Share your referral code with friends & earn rewards.
-        </p>
-
-        {/* Referral Code */}
-        <div style={styles.codeBox}>
-          <span style={styles.code}>{referralCode}</span>
-          <button onClick={handleCopy} style={styles.copyBtn}>
-            <Copy size={16} /> Copy
-          </button>
-        </div>
-
-        {/* Share Button */}
-        <button onClick={handleShare} style={styles.shareBtn}>
-          <Share2 size={18} /> Share
+     
+      <div className="fixed top-3 right-3 z-50">
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="w-10 h-10 flex items-center justify-center 
+          rounded-lg bg-white/20 text-white shadow"
+        >
+          ☰
         </button>
+      </div>
 
-        {/* Footer */}
-        <div style={styles.footer}>
-          <Gift size={14} />
-          <span>Earn rewards for every referral</span>
+      
+      {menuOpen && (
+        <div className="fixed top-14 right-3 z-50 bg-white rounded-xl shadow-lg p-3 w-40 text-black">
+          <p className="py-1 cursor-pointer">Profile</p>
+          <p className="py-1 cursor-pointer">Settings</p>
+        </div>
+      )}
+
+      
+      <div className="flex items-center justify-center min-h-screen px-4">
+        <img
+          src={person}
+          alt="person"
+          className="w-52 sm:w-64 md:w-72 object-contain"
+        />
+      </div>
+
+     
+      <div className="fixed bottom-4 left-0 w-full px-4 flex justify-center z-40">
+        <div className="w-full max-w-md rounded-3xl bg-[#9c6b2f]/80 backdrop-blur-md shadow-xl p-5 text-center text-white">
+          
+          <h2 className="text-base sm:text-lg font-bold">
+            Get more Chances to Win!
+          </h2>
+
+          <p className="text-xs sm:text-sm text-white/80 mt-1">
+            Share your referral code with friends & earn vouchers!
+          </p>
+
+          <p className="mt-3 text-xs sm:text-sm">Your Referral Code:</p>
+
+          <div className="text-lg sm:text-xl font-bold text-yellow-300 mt-1 tracking-widest">
+            GOLD123
+          </div>
+
+          <button
+            onClick={copyCode}
+            className="mt-4 w-full py-2 sm:py-3 rounded-full bg-yellow-400 text-black font-semibold shadow active:scale-95"
+          >
+            Copy Code
+          </button>
         </div>
       </div>
     </div>
   );
-};
-
-export default ReferralPage;
-
-const styles = {
-  container: {
-    minHeight: "100vh",
-    background: "linear-gradient(135deg, #1a0f2e, #2c1449)",
-    color: "#fff",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "20px",
-    fontFamily: "sans-serif",
-  },
-
-  backBtn: {
-    position: "absolute",
-    top: "20px",
-    left: "20px",
-    background: "rgba(255,255,255,0.1)",
-    border: "none",
-    color: "#fff",
-    borderRadius: "50%",
-    width: "40px",
-    height: "40px",
-    cursor: "pointer",
-  },
-
-  title: {
-    fontSize: "2.5rem",
-    fontWeight: "bold",
-    marginBottom: "20px",
-    textAlign: "center",
-  },
-
-  highlight: {
-    color: "#ffd700",
-  },
-
-  card: {
-    background: "rgba(255,255,255,0.08)",
-    padding: "25px",
-    borderRadius: "20px",
-    width: "100%",
-    maxWidth: "350px",
-    textAlign: "center",
-  },
-
-  subtitle: {
-    fontSize: "1.4rem",
-    marginBottom: "10px",
-    color: "#ffd700",
-  },
-
-  text: {
-    fontSize: "0.95rem",
-    marginBottom: "20px",
-  },
-
-  codeBox: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    background: "rgba(0,0,0,0.3)",
-    padding: "10px",
-    borderRadius: "10px",
-    marginBottom: "15px",
-  },
-
-  code: {
-    fontSize: "1.5rem",
-    fontWeight: "bold",
-    letterSpacing: "3px",
-  },
-
-  copyBtn: {
-    background: "#ffd700",
-    border: "none",
-    padding: "6px 12px",
-    borderRadius: "20px",
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-    gap: "5px",
-  },
-
-  shareBtn: {
-    width: "100%",
-    background: "#ffd700",
-    border: "none",
-    padding: "10px",
-    borderRadius: "20px",
-    cursor: "pointer",
-    marginBottom: "15px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "8px",
-  },
-
-  footer: {
-    fontSize: "0.8rem",
-    display: "flex",
-    justifyContent: "center",
-    gap: "5px",
-    opacity: 0.8,
-  },
-};
-
+}

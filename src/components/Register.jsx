@@ -1,74 +1,121 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/images/logo4.png";
 import bg from "../assets/images/bg.png";
-
 const Register = () => {
+  const navigate = useNavigate();
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    pincode: "",
+    state: "",
+    city: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = () => {
+    if (!form.name || !form.phone) {
+      alert("Please fill required fields");
+      return;
+    }
+
+    navigate("/verification");
+  };
+
   return (
     <div
       className="min-h-screen flex items-center justify-center px-4 bg-cover bg-center"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      <div className="w-full max-w-md text-center">
+      <div className="w-full max-w-md bg-white/10 backdrop-blur-md 
+        p-6 sm:p-8 rounded-2xl shadow-xl flex flex-col items-center"
+      >
 
-        {/* Logo */}
+       
         <img
           src={logo}
           alt="logo"
-          className="mx-auto w-40 mb-4"
+          className="w-28 sm:w-36 mb-4"
         />
 
-        <h2 className="text-xl font-bold text-black mb-6 tracking-wide">
+      
+        <h2 className="text-center text-lg sm:text-xl font-bold text-[#3b2a0a] mb-6 tracking-wide">
           REGISTRATION
         </h2>
 
-        <div className="space-y-4">
+        
+        <div className="w-full space-y-4">
 
           <input
             type="text"
+            name="name"
             placeholder="Name"
-            className="w-full p-3 rounded-xl bg-[#e6c28b]/80 shadow-md outline-none"
+            onChange={handleChange}
+            className="w-full px-4 py-3 rounded-xl bg-[#e6c28b]/90 shadow 
+            outline-none text-sm text-black placeholder:text-black/60"
           />
 
           <input
             type="text"
+            name="phone"
             placeholder="Phone Number"
-            className="w-full p-3 rounded-xl bg-[#e6c28b]/80 shadow-md outline-none"
+            onChange={handleChange}
+            className="w-full px-4 py-3 rounded-xl bg-[#e6c28b]/90 shadow 
+            outline-none text-sm text-black placeholder:text-black/60"
           />
 
           <input
             type="text"
+            name="pincode"
             placeholder="Pincode"
-            className="w-full p-3 rounded-xl bg-[#e6c28b]/80 shadow-md outline-none"
+            onChange={handleChange}
+            className="w-full px-4 py-3 rounded-xl bg-[#e6c28b]/90 shadow 
+            outline-none text-sm text-black placeholder:text-black/60"
           />
 
+         
           <div className="flex gap-3">
             <input
               type="text"
+              name="state"
               placeholder="State"
-              className="w-1/2 p-3 rounded-xl bg-[#e6c28b]/80 shadow-md outline-none"
+              onChange={handleChange}
+              className="w-1/2 px-4 py-3 rounded-xl bg-[#e6c28b]/90 shadow 
+              outline-none text-sm text-black placeholder:text-black/60"
             />
+
             <input
               type="text"
+              name="city"
               placeholder="City"
-              className="w-1/2 p-3 rounded-xl bg-[#e6c28b]/80 shadow-md outline-none"
+              onChange={handleChange}
+              className="w-1/2 px-4 py-3 rounded-xl bg-[#e6c28b]/90 shadow 
+              outline-none text-sm text-black placeholder:text-black/60"
             />
           </div>
 
-          <div className="text-left text-white text-sm space-y-2 mt-3">
-            <label className="flex items-start gap-2">
+        
+          <div className="text-xs sm:text-sm text-white space-y-2">
+            <label className="flex items-start gap-2 leading-tight">
               <input type="checkbox" className="mt-1" />
-              <span>I agree to the Terms and Conditions.</span>
+              <span>I agree to Terms & Conditions</span>
             </label>
 
-            <label className="flex items-start gap-2">
+            <label className="flex items-start gap-2 leading-tight">
               <input type="checkbox" className="mt-1" />
-              <span>
-                I hereby confirm that I am a Smoker and 18+ years old.
-              </span>
+              <span>I am a Smoker and 18+ years old</span>
             </label>
           </div>
 
-          <button className="w-full mt-5 py-3 rounded-xl bg-[#7a3e06] text-white shadow-lg active:translate-y-1 transition">
+          
+          <button
+            onClick={handleSubmit}
+            className="w-full mt-2 py-3 rounded-xl bg-[#7a3e06] text-white 
+            shadow-md hover:bg-[#5c2e04] active:scale-95 transition"
+          >
             Get OTP
           </button>
 

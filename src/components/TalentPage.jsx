@@ -1,20 +1,26 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import bg from "../assets/images/bg.png";
-import mansinger from "../assets/images/mansinger.png";
+import backIcon from "../assets/images/group.png";
 const TalentPage = () => {
   const navigate = useNavigate();
+  const fileInputRef = useRef();
+  const defaultVideo =
+    "https://videos.pexels.com/video-files/9006361/9006361-uhd_1440_2560_25fps.mp4";
+  const [selectedVideo, setSelectedVideo] = useState(defaultVideo);
+
+  const openFile = () => fileInputRef.current.click();
 
   const styles = {
     page: {
-      height: "100vh",
+      minHeight: "100vh",
       width: "100%",
       backgroundImage: `url(${bg})`,
       backgroundSize: "cover",
       backgroundPosition: "center",
       display: "flex",
       flexDirection: "column",
-      justifyContent: "space-between",
+      justifyContent: "flex-start",
       alignItems: "center",
       padding: "16px",
     },
@@ -24,90 +30,71 @@ const TalentPage = () => {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
+      marginBottom: "20px",
     },
 
-    // 🔥 PREMIUM BUTTON STYLE
-    glassBtn: {
-      backdropFilter: "blur(10px)",
-      background: "rgba(255,255,255,0.4)",
-      border: "1px solid rgba(255,255,255,0.5)",
-      padding: "10px",
-      borderRadius: "14px",
+    iconBtn: {
+      background: "rgba(255,255,255,0.8)",
+      border: "none",
+      borderRadius: "10px",
+      padding: "8px",
       cursor: "pointer",
-      boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-    },
-
-    rightIcons: {
-      display: "flex",
-      gap: "10px",
+      boxShadow: "0 3px 8px rgba(0,0,0,0.3)",
     },
 
     centerBox: {
       flex: 1,
       display: "flex",
+      flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
       width: "100%",
+      gap: "20px",
+      marginBottom: "20px",
     },
 
-    card: {
-      position: "relative",
-      width: "92%",
-      maxWidth: "320px",
-      borderRadius: "22px",
+    videoCard: {
+      width: "90%",
+      maxWidth: "350px",
+      borderRadius: "20px",
       overflow: "hidden",
       background: "#f5e6c8",
-      boxShadow: "0 12px 30px rgba(0,0,0,0.5)",
-    },
-
-    img: {
-      width: "100%",
-      display: "block",
-    },
-
-    playBtn: {
-      position: "absolute",
-      bottom: "20px",
-      left: "50%",
-      transform: "translateX(-50%)",
-      width: "65px",
-      height: "65px",
-      borderRadius: "50%",
-      background: "linear-gradient(145deg, #d9a441, #b87a1f)",
+      boxShadow: "0 8px 20px rgba(0,0,0,0.4)",
       display: "flex",
+      flexDirection: "column",
       alignItems: "center",
-      justifyContent: "center",
-      color: "#fff",
-      fontSize: "22px",
-      cursor: "pointer",
-      boxShadow: "0 6px 15px rgba(0,0,0,0.4)",
+      padding: "10px",
     },
 
-    cardActions: {
-      position: "absolute",
-      top: "10px",
-      right: "10px",
-      display: "flex",
-      gap: "8px",
+    videoElement: {
+      width: "100%",
+      borderRadius: "15px",
+      backgroundColor: "#000",
     },
 
-    actionBtn: {
-      backdropFilter: "blur(8px)",
-      background: "rgba(255,255,255,0.6)",
+    uploadBtn: {
+      marginTop: "15px",
+      width: "80%",
+      maxWidth: "250px",
+      padding: "12px",
+      borderRadius: "25px",
       border: "none",
-      padding: "6px",
-      borderRadius: "50%",
+      background: "#d9a441",
+      color: "#fff",
+      fontWeight: "bold",
       cursor: "pointer",
+      boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+      textAlign: "center",
     },
 
     bottomBox: {
       width: "100%",
       display: "flex",
       justifyContent: "center",
-      marginBottom: "10px",
+      marginBottom: "20px",
     },
 
     submitBtn: {
@@ -116,7 +103,7 @@ const TalentPage = () => {
       padding: "14px",
       borderRadius: "30px",
       border: "none",
-      background: "linear-gradient(145deg, #d9a441, #b87a1f)",
+      background: "#b87a1f",
       color: "#fff",
       fontSize: "16px",
       cursor: "pointer",
@@ -126,37 +113,47 @@ const TalentPage = () => {
 
   return (
     <div style={styles.page}>
-      {/* Top Bar */}
+     
       <div style={styles.topBar}>
-        <button style={styles.glassBtn} onClick={() => navigate(-1)}>
-          ⟲
+        <button style={styles.iconBtn} onClick={() => navigate(-1)}>
+          <img src={backIcon} alt="back" className="w-6 h-6" />
         </button>
 
-        <div style={styles.rightIcons}>
-          <button style={styles.glassBtn} onClick={() => navigate("/dashboard")}>
+        <div style={{ display: "flex", gap: "10px" }}>
+          <button style={styles.iconBtn} onClick={() => navigate("/dashboard")}>
             🏠
           </button>
-          <button style={styles.glassBtn}>
-            ☰
-          </button>
+          <button style={styles.iconBtn}>☰</button>
         </div>
       </div>
 
-      {/* Card */}
+     
       <div style={styles.centerBox}>
-        <div style={styles.card}>
-          <img src={mansinger} alt="singer" style={styles.img} />
+        <div style={styles.videoCard}>
+          <video
+            src={selectedVideo}
+            style={styles.videoElement}
+            controls
+          />
 
-          <div style={styles.cardActions}>
-            <button style={styles.actionBtn}>⬆</button>
-            <button style={styles.actionBtn}>✖</button>
-          </div>
+          <button style={styles.uploadBtn} onClick={openFile}>
+            Upload Video
+          </button>
 
-          <div style={styles.playBtn}>▶</div>
+          <input
+            type="file"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            accept="video/*"
+            onChange={(e) => {
+              if (e.target.files && e.target.files[0]) {
+                setSelectedVideo(URL.createObjectURL(e.target.files[0]));
+              }
+            }}
+          />
         </div>
       </div>
 
-      {/* Submit */}
       <div style={styles.bottomBox}>
         <button style={styles.submitBtn}>Submit</button>
       </div>
