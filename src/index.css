@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  font-family: 'DINPro';
+  font-family: 'DINPro','poppins', sans-serif;
   src: url('/src/assets/fonts/DINPro-Bold.woff2') format('woff2');
   font-weight: 700;
 }
